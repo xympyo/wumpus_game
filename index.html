@@ -25,10 +25,6 @@
             justify-content: center;
             align-items: center;
             margin-top: 4rem;
-            /* position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); */
         }
 
         .square {
@@ -83,6 +79,30 @@
             margin-right: 3rem;
         }
 
+        .pad-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .shoot-btn {
+            height: 5rem;
+            width: 5rem;
+            border-radius: 50%;
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            filter: drop-shadow(0px 0px .5rem #000000);
+        }
+
+        .shoot-btn .shoot-text {
+            color: white;
+            font-weight: bolder;
+        }
+
         .num-container {
             display: flex;
             justify-content: center;
@@ -106,6 +126,10 @@
 
         .active {
             background-color: red;
+        }
+
+        .passed {
+            background-color: orange;
         }
 
         .btn {
@@ -145,68 +169,25 @@
             </div>
         </div>
 
-        <div class="num-container">
-            <div class="row-1">
-                <div onclick="move(1)" id="arrUp" class="arrow-up btn"></div>
+        <div class="pad-container">
+            <div class="num-container">
+                <div class="row-1">
+                    <div onclick="move(1)" id="arrUp" class="arrow-up btn"></div>
+                </div>
+                <div class="row-2">
+                    <div onclick="move(2)" id="arrLeft" class="arrow-left btn"></div>
+                    <div onclick="move(3)" id="arrRight" class="arrow-right btn"></div>
+                </div>
+                <div class="row-3">
+                    <div onclick="move(4)" id="arrDown" class="arrow-down btn"></div>
+                </div>
             </div>
-            <div class="row-2">
-                <div onclick="move(2)" id="arrLeft" class="arrow-left btn"></div>
-                <div onclick="move(3)" id="arrRight" class="arrow-right btn"></div>
-            </div>
-            <div class="row-3">
-                <div onclick="move(4)" id="arrDown" class="arrow-down btn"></div>
+            <div onclick="shoot()" class="shoot-btn">
+                <h4 class="shoot-text"">SHOOT!</h4>
             </div>
         </div>
     </div>
-    <script>
-        // declaration
-        let arrUp = document.getElementById("arrUp");
-        let arrLeft = document.getElementById("arrLeft");
-        let arrRight = document.getElementById("arrRight");
-        let arrDown = document.getElementById("arrDown");
-
-
-        // spawner
-        let SpawnRandomX = Math.floor(Math.random() * 4) + 1;
-        let SpawnRandomY = Math.floor(Math.random() * 4) + 1;
-        console.log(SpawnRandomX, SpawnRandomY);
-
-        let xCoordinate = SpawnRandomX;
-        let yCoordinate = SpawnRandomY;
-
-        console.log(xCoordinate, yCoordinate);
-        const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-
-        // functions
-        function move(num) {
-            if (num == 1) {
-                if (yCoordinate > 1) {
-                    const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.remove("active");
-                    yCoordinate--;
-                    const square = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-                }
-            }
-            else if (num == 2) {
-                if (xCoordinate > 1) {
-                    const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.remove("active");
-                    xCoordinate--;
-                    const square = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-                }
-            }
-            else if (num == 3) {
-                if (xCoordinate < 4) {
-                    const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.remove("active");
-                    xCoordinate++;
-                    const square = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-                }
-            } else {
-                if (yCoordinate < 4) {
-                    const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.remove("active");
-                    yCoordinate++;
-                    const square = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-                }
-            }
-        }
+    <script src=" index.js">
     </script>
 </body>
 
