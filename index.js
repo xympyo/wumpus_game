@@ -4,13 +4,13 @@ let arrLeft = document.getElementById("arrLeft");
 let arrRight = document.getElementById("arrRight");
 let arrDown = document.getElementById("arrDown");
 // agent coordinate declaration
-let wumpusY;
-let wumpusX;
+let SpawnRandomX;
+let SpawnRandomY;
 let xCoordinate;
 let yCoordinate;
 // wumpus coordinate declaration
-let SpawnRandomX;
-let SpawnRandomY;
+let wumpusY;
+let wumpusX;
 // pit coordinate declaration
 let pitY;
 let pitX;
@@ -37,30 +37,28 @@ function createWumpus() {
     .getElementById("recty" + wumpusY + "x" + wumpusX)
     .classList.add("wumpus");
 }
-let prevPitY = null;
-let prevPitX = null;
+let prevPitY = [];
+let prevPitX = [];
 // function create pit
 function createPit() {
   let pitY, pitX;
-
+  let isDuplicate;
   do {
     pitY = Math.floor(Math.random() * 4) + 1;
     pitX = Math.floor(Math.random() * 4) + 1;
+    // check if the pit exists or not
+    isDuplicate = prevPitY.some((y, i) => y == pitY && prevPitX[i] == pitX);
   } while (
     (pitY == wumpusY && pitX == wumpusX) ||
     (pitY == yCoordinate && pitX == xCoordinate) ||
-    (pitY == prevPitY && pitX == prevPitX)
+    isDuplicate
   );
-
-  // Update previous pit coordinates
-  prevPitY = pitY;
-  prevPitX = pitX;
-
-  // Spawn the pit
+  // store new pit coordinate
+  prevPitY.push(pitY);
+  prevPitX.push(pitX);
+  // spawn pit
   document.getElementById("recty" + pitY + "x" + pitX).classList.add("pit");
 }
-
-// function start game create pit
 function startCreatePit() {
   for (let i = 0; i < 3; i++) {
     createPit();
@@ -74,6 +72,26 @@ function startGame() {
 }
 // game start
 startGame();
+// function to see if adjacent to wumpus
+function isAdjacentToWumpus(newX, newY) {
+  return (
+    (newX === wumpusX && (newY === wumpusY - 1 || newY === wumpusY + 1)) ||
+    (newY === wumpusY && (newX === wumpusX - 1 || newX === wumpusX + 1)) 
+  );
+}
+// function to see if adjacent to pit
+// function isAdjacentToPit(newX,newY) {
+//   return (
+//     (newX === )
+//   )
+// }
+checker(xCoordinate, yCoordinate);
+// function to check
+function checker(newX, newY) {
+  if (isAdjacentToWumpus(newX, newY)) {
+    console.log("You feel a breeze");
+  }
+}
 // moving function
 function move(num) {
   // moving
@@ -85,12 +103,16 @@ function move(num) {
   // movement
   if (num == 1 && yCoordinate > 1) {
     yCoordinate--;
+    checker(xCoordinate, yCoordinate);
   } else if (num == 2 && xCoordinate > 1) {
     xCoordinate--;
+    checker(xCoordinate, yCoordinate);
   } else if (num == 3 && xCoordinate < 4) {
     xCoordinate++;
+    checker(xCoordinate, yCoordinate);
   } else if (num == 4 && yCoordinate < 4) {
     yCoordinate++;
+    checker(xCoordinate, yCoordinate);
   }
   const newSquare = document.getElementById(
     "recty" + yCoordinate + "x" + xCoordinate
