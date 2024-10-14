@@ -37,20 +37,29 @@ function createWumpus() {
     .getElementById("recty" + wumpusY + "x" + wumpusX)
     .classList.add("wumpus");
 }
+let prevPitY = null;
+let prevPitX = null;
 // function create pit
 function createPit() {
+  let pitY, pitX;
+
   do {
     pitY = Math.floor(Math.random() * 4) + 1;
     pitX = Math.floor(Math.random() * 4) + 1;
   } while (
     (pitY == wumpusY && pitX == wumpusX) ||
-    (pitY == yCoordinate && pitX == xCoordinate)
+    (pitY == yCoordinate && pitX == xCoordinate) ||
+    (pitY == prevPitY && pitX == prevPitX)
   );
-  // spawning
+
+  // Update previous pit coordinates
+  prevPitY = pitY;
+  prevPitX = pitX;
+
+  // Spawn the pit
   document.getElementById("recty" + pitY + "x" + pitX).classList.add("pit");
-  // return
-  return pitX, pitY;
 }
+
 // function start game create pit
 function startCreatePit() {
   for (let i = 0; i < 3; i++) {
