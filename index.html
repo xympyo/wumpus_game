@@ -7,117 +7,16 @@
     <title>Wumpus Game</title>
 
     <style>
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-        }
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-top: 4rem;
-            /* position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); */
-        }
-
-        .square {
-            width: 5rem;
-            height: 5rem;
-            background-color: grey;
-            border: .2rem solid black;
-        }
-
-        .row {
-            display: flex;
-            flex-direction: row;
-        }
-
-        .arrow-up {
-            width: 0;
-            height: 0;
-            border-left: 2rem solid transparent;
-            border-right: 2rem solid transparent;
-            filter: drop-shadow(0px 0px 1rem #000000);
-            border-bottom: 2rem solid yellow;
-            margin-bottom: 1rem;
-        }
-
-        .arrow-down {
-            width: 0;
-            height: 0;
-            border-left: 2rem solid transparent;
-            border-right: 2rem solid transparent;
-            filter: drop-shadow(0px 0px 1rem #000000);
-            border-top: 2rem solid green;
-            margin-top: 1rem;
-        }
-
-        .arrow-right {
-            width: 0;
-            height: 0;
-            border-top: 2rem solid transparent;
-            border-bottom: 2rem solid transparent;
-            filter: drop-shadow(0px 0px 1rem #000000);
-            border-left: 2rem solid red;
-            margin-left: 3rem;
-        }
-
-        .arrow-left {
-            width: 0;
-            height: 0;
-            border-top: 2rem solid transparent;
-            border-bottom: 2rem solid transparent;
-            filter: drop-shadow(0px 0px 1rem #000000);
-            border-right: 2rem solid blue;
-            margin-right: 3rem;
-        }
-
-        .num-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin-top: 2rem;
-        }
-
-        .row-2 {
-            display: flex;
-        }
-
-        .big-container {
-            display: flex;
-            flex-direction: column;
-            width: fit-content;
-            padding: 1rem;
-            margin: .2rem;
-            border: .3rem solid black;
-        }
-
-        .active {
-            background-color: red;
-        }
-
-        .btn {
-            cursor: pointer;
-        }
     </style>
 </head>
 
 <body>
+    <!-- declare container -->
     <div class="big-container">
         <h1 style="display: flex; justify-content: center; align-items: center;"><span style="color: red;">Hunt
                 &nbsp</span>The &nbsp<span style="color: green;">Wumpus</span></h1>
+        <!-- declare container for the game -->
         <div class="container">
             <div class="row">
                 <div class="square" id="recty1x1"></div>
@@ -145,68 +44,25 @@
             </div>
         </div>
 
-        <div class="num-container">
-            <div class="row-1">
-                <div onclick="move(1)" id="arrUp" class="arrow-up btn"></div>
+        <div class="pad-container">
+            <div class="num-container">
+                <div class="row-1">
+                    <div onclick="move(1)" id="arrUp" class="arrow-up btn"></div>
+                </div>
+                <div class="row-2">
+                    <div onclick="move(2)" id="arrLeft" class="arrow-left btn"></div>
+                    <div onclick="move(3)" id="arrRight" class="arrow-right btn"></div>
+                </div>
+                <div class="row-3">
+                    <div onclick="move(4)" id="arrDown" class="arrow-down btn"></div>
+                </div>
             </div>
-            <div class="row-2">
-                <div onclick="move(2)" id="arrLeft" class="arrow-left btn"></div>
-                <div onclick="move(3)" id="arrRight" class="arrow-right btn"></div>
-            </div>
-            <div class="row-3">
-                <div onclick="move(4)" id="arrDown" class="arrow-down btn"></div>
+            <div onclick="shoot()" class="shoot-btn">
+                <h4 class="shoot-text"">SHOOT!</h4>
             </div>
         </div>
     </div>
-    <script>
-        // declaration
-        let arrUp = document.getElementById("arrUp");
-        let arrLeft = document.getElementById("arrLeft");
-        let arrRight = document.getElementById("arrRight");
-        let arrDown = document.getElementById("arrDown");
-
-
-        // spawner
-        let SpawnRandomX = Math.floor(Math.random() * 4) + 1;
-        let SpawnRandomY = Math.floor(Math.random() * 4) + 1;
-        console.log(SpawnRandomX, SpawnRandomY);
-
-        let xCoordinate = SpawnRandomX;
-        let yCoordinate = SpawnRandomY;
-
-        console.log(xCoordinate, yCoordinate);
-        const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-
-        // functions
-        function move(num) {
-            if (num == 1) {
-                if (yCoordinate > 1) {
-                    const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.remove("active");
-                    yCoordinate--;
-                    const square = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-                }
-            }
-            else if (num == 2) {
-                if (xCoordinate > 1) {
-                    const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.remove("active");
-                    xCoordinate--;
-                    const square = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-                }
-            }
-            else if (num == 3) {
-                if (xCoordinate < 4) {
-                    const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.remove("active");
-                    xCoordinate++;
-                    const square = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-                }
-            } else {
-                if (yCoordinate < 4) {
-                    const squares = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.remove("active");
-                    yCoordinate++;
-                    const square = document.getElementById("recty" + yCoordinate + "x" + xCoordinate).classList.add("active");
-                }
-            }
-        }
+    <script src=" index.js">
     </script>
 </body>
 
