@@ -7,7 +7,142 @@
     <title>Wumpus Game</title>
 
     <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 4rem;
+        }
+
+        .square {
+            width: 5rem;
+            height: 5rem;
+            background-color: grey;
+            border: .2rem solid black;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .arrow-up {
+            width: 0;
+            height: 0;
+            border-left: 2rem solid transparent;
+            border-right: 2rem solid transparent;
+            filter: drop-shadow(0px 0px 1rem #000000);
+            border-bottom: 2rem solid yellow;
+            margin-bottom: 1rem;
+        }
+
+        .arrow-down {
+            width: 0;
+            height: 0;
+            border-left: 2rem solid transparent;
+            border-right: 2rem solid transparent;
+            filter: drop-shadow(0px 0px 1rem #000000);
+            border-top: 2rem solid green;
+            margin-top: 1rem;
+        }
+
+        .arrow-right {
+            width: 0;
+            height: 0;
+            border-top: 2rem solid transparent;
+            border-bottom: 2rem solid transparent;
+            filter: drop-shadow(0px 0px 1rem #000000);
+            border-left: 2rem solid red;
+            margin-left: 3rem;
+        }
+
+        .arrow-left {
+            width: 0;
+            height: 0;
+            border-top: 2rem solid transparent;
+            border-bottom: 2rem solid transparent;
+            filter: drop-shadow(0px 0px 1rem #000000);
+            border-right: 2rem solid blue;
+            margin-right: 3rem;
+        }
+
+        .pad-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .shoot-btn {
+            height: 5rem;
+            width: 5rem;
+            border-radius: 50%;
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            filter: drop-shadow(0px 0px .5rem #000000);
+        }
+
+        .shoot-btn .shoot-text {
+            color: white;
+            font-weight: bolder;
+        }
+
+        .num-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 2rem;
+        }
+
+        .row-2 {
+            display: flex;
+        }
+
+        .big-container {
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+            padding: 1rem;
+            margin: .2rem;
+            border: .3rem solid black;
+        }
+
+        .active {
+            background-color: red;
+        }
+
+        .passed {
+            background-color: orange;
+        }
+
+        .btn {
+            cursor: pointer;
+        }
+
+        .wumpus {
+            background-color: green;
+        }
+
+        .pit {
+            background-color: plum;
+        }
     </style>
 </head>
 
