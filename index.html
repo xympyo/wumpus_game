@@ -20,6 +20,24 @@
             align-items: center;
         }
 
+        .whole-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .whole-container .text-container {
+            display: flex;
+            justify-content: left;
+            flex-direction: column;
+            margin-right: 8rem;
+
+            .text-desc {
+                text-align: right;
+            }
+        }
+
         /* centering container */
         .container {
             display: flex;
@@ -152,55 +170,63 @@
 </head>
 
 <body>
-    <!-- declare container -->
-    <div class="big-container">
-        <h1 style="display: flex; justify-content: center; align-items: center;"><span style="color: red;">Hunt
-                &nbsp</span>The &nbsp<span style="color: green;">Wumpus</span></h1>
-        <!-- declare container for the game -->
-        <div class="container">
-            <!-- declare rows for the game -->
-            <div class="row">
-                <div class="square" id="recty1x1"></div>
-                <div class="square" id="recty1x2"></div>
-                <div class="square" id="recty1x3"></div>
-                <div class="square" id="recty1x4"></div>
-            </div>
-            <div class="row">
-                <div class="square" id="recty2x1"></div>
-                <div class="square" id="recty2x2"></div>
-                <div class="square" id="recty2x3"></div>
-                <div class="square" id="recty2x4"></div>
-            </div>
-            <div class="row">
-                <div class="square" id="recty3x1"></div>
-                <div class="square" id="recty3x2"></div>
-                <div class="square" id="recty3x3"></div>
-                <div class="square" id="recty3x4"></div>
-            </div>
-            <div class="row">
-                <div class="square" id="recty4x1"></div>
-                <div class="square" id="recty4x2"></div>
-                <div class="square" id="recty4x3"></div>
-                <div class="square" id="recty4x4"></div>
-            </div>
+    <div class="whole-container">
+        <div class="text-container">
+            <h4 id="text_breeze" class="text-desc">You feel a <span
+                    style="color: aquamarine; font-size: 2rem;">breeze.</span></h4>
+            <h4 id="text_stench" class="text-desc">You smell a <span
+                    style="color: burlywood;font-size: 2rem;">stench.</span></h4>
         </div>
-
-        <!-- declare num pad for the game -->
-        <div class="pad-container">
-            <div class="num-container">
-                <div class="row-1">
-                    <div onclick="move(1)" id="arrUp" class="arrow-up btn"></div>
+        <!-- declare container -->
+        <div class="big-container">
+            <h1 style="display: flex; justify-content: center; align-items: center;"><span style="color: red;">Hunt
+                    &nbsp</span>The &nbsp<span style="color: green;">Wumpus</span></h1>
+            <!-- declare container for the game -->
+            <div class="container">
+                <!-- declare rows for the game -->
+                <div class="row">
+                    <div class="square" id="recty1x1"></div>
+                    <div class="square" id="recty1x2"></div>
+                    <div class="square" id="recty1x3"></div>
+                    <div class="square" id="recty1x4"></div>
                 </div>
-                <div class="row-2">
-                    <div onclick="move(2)" id="arrLeft" class="arrow-left btn"></div>
-                    <div onclick="move(3)" id="arrRight" class="arrow-right btn"></div>
+                <div class="row">
+                    <div class="square" id="recty2x1"></div>
+                    <div class="square" id="recty2x2"></div>
+                    <div class="square" id="recty2x3"></div>
+                    <div class="square" id="recty2x4"></div>
                 </div>
-                <div class="row-3">
-                    <div onclick="move(4)" id="arrDown" class="arrow-down btn"></div>
+                <div class="row">
+                    <div class="square" id="recty3x1"></div>
+                    <div class="square" id="recty3x2"></div>
+                    <div class="square" id="recty3x3"></div>
+                    <div class="square" id="recty3x4"></div>
+                </div>
+                <div class="row">
+                    <div class="square" id="recty4x1"></div>
+                    <div class="square" id="recty4x2"></div>
+                    <div class="square" id="recty4x3"></div>
+                    <div class="square" id="recty4x4"></div>
                 </div>
             </div>
-            <div onclick="shoot()" class="shoot-btn">
-                <h4 class="shoot-text"">SHOOT!</h4>
+
+            <!-- declare num pad for the game -->
+            <div class="pad-container">
+                <div class="num-container">
+                    <div class="row-1">
+                        <div onclick="move(1)" id="arrUp" class="arrow-up btn"></div>
+                    </div>
+                    <div class="row-2">
+                        <div onclick="move(2)" id="arrLeft" class="arrow-left btn"></div>
+                        <div onclick="move(3)" id="arrRight" class="arrow-right btn"></div>
+                    </div>
+                    <div class="row-3">
+                        <div onclick="move(4)" id="arrDown" class="arrow-down btn"></div>
+                    </div>
+                </div>
+                <div onclick="shoot()" class="shoot-btn">
+                    <h4 class="shoot-text"">SHOOT!</h4>
+                </div>
             </div>
         </div>
     </div>

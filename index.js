@@ -60,7 +60,7 @@ function createPit() {
   document.getElementById("recty" + pitY + "x" + pitX).classList.add("pit");
 }
 function startCreatePit() {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     createPit();
   }
 }
@@ -76,22 +76,67 @@ startGame();
 function isAdjacentToWumpus(newX, newY) {
   return (
     (newX === wumpusX && (newY === wumpusY - 1 || newY === wumpusY + 1)) ||
-    (newY === wumpusY && (newX === wumpusX - 1 || newX === wumpusX + 1)) 
+    (newY === wumpusY && (newX === wumpusX - 1 || newX === wumpusX + 1))
   );
 }
+
 // function to see if adjacent to pit
-// function isAdjacentToPit(newX,newY) {
-//   return (
-//     (newX === )
-//   )
-// }
-checker(xCoordinate, yCoordinate);
+function isAdjacentToPit(newX, newY) {
+  for (let i = 0; i < prevPitX.length; i++) {
+    if (
+      (newX === prevPitX[i] &&
+        (newY === prevPitY[i] - 1 || newY === prevPitY[i] + 1)) ||
+      (newY === prevPitY[i] &&
+        (newX === prevPitX[i] - 1 || newX === prevPitX[i] + 1))
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// is pitAdjacent declaration
+let isPitAdjacent = [];
+// text declaration
+let stench = document.getElementById("text_stench");
+let breeze = document.getElementById("text_breeze");
+// to check all
+function pitChecker(newX, newY) {
+  if (isAdjacentToPit(newX, newY)) {
+    breeze.style.opacity = 1;
+  } else {
+    breeze.style.opacity = 0;
+  }
+}
+
 // function to check
 function checker(newX, newY) {
   if (isAdjacentToWumpus(newX, newY)) {
-    console.log("You feel a breeze");
+    stench.style.opacity = 1;
+  } else {
+    stench.style.opacity = 0;
   }
 }
+
+// check if the user went into pit
+function checkWumpus(newX, newY) {
+  if (newX === wumpusX && newY === wumpusY) {
+    console.log("You have died!");
+  }
+}
+// check if the user went into pit
+function checkPit(newX, newY) {
+  for (let i = 0; i < 2; i++) {
+    if (newX === prevPitX[i] && newY === prevPitY[i]) {
+      console.log("You have died!");
+    }
+  }
+}
+
+// check early game
+pitChecker(xCoordinate, yCoordinate);
+checker(xCoordinate, yCoordinate);
+
 // moving function
 function move(num) {
   // moving
@@ -104,15 +149,27 @@ function move(num) {
   if (num == 1 && yCoordinate > 1) {
     yCoordinate--;
     checker(xCoordinate, yCoordinate);
+    pitChecker(xCoordinate, yCoordinate);
+    checkWumpus(xCoordinate, yCoordinate);
+    checkPit(xCoordinate, yCoordinate);
   } else if (num == 2 && xCoordinate > 1) {
     xCoordinate--;
     checker(xCoordinate, yCoordinate);
+    pitChecker(xCoordinate, yCoordinate);
+    checkWumpus(xCoordinate, yCoordinate);
+    checkPit(xCoordinate, yCoordinate);
   } else if (num == 3 && xCoordinate < 4) {
     xCoordinate++;
     checker(xCoordinate, yCoordinate);
+    pitChecker(xCoordinate, yCoordinate);
+    checkWumpus(xCoordinate, yCoordinate);
+    checkPit(xCoordinate, yCoordinate);
   } else if (num == 4 && yCoordinate < 4) {
     yCoordinate++;
     checker(xCoordinate, yCoordinate);
+    pitChecker(xCoordinate, yCoordinate);
+    checkWumpus(xCoordinate, yCoordinate);
+    checkPit(xCoordinate, yCoordinate);
   }
   const newSquare = document.getElementById(
     "recty" + yCoordinate + "x" + xCoordinate
