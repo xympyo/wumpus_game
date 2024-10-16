@@ -170,6 +170,13 @@ function checkGold(newX, newY) {
   }
 }
 
+let facingX;
+let facingY;
+// function checking direction
+function checkDirection(newX, newY) {
+  console.log("Your direction is now on X " + newX + " and Y " + newY);
+}
+
 // check early game
 pitChecker(xCoordinate, yCoordinate);
 checker(xCoordinate, yCoordinate);
@@ -190,6 +197,9 @@ function move(num) {
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
+    facingX = 0;
+    facingY = yCoordinate - 1;
+    checkDirection(facingX, facingY);
   } else if (num == 2 && xCoordinate > 1) {
     xCoordinate--;
     checker(xCoordinate, yCoordinate);
@@ -197,6 +207,9 @@ function move(num) {
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
+    facingX = xCoordinate - 1;
+    facingY = 0;
+    checkDirection(facingX, facingY);
   } else if (num == 3 && xCoordinate < 4) {
     xCoordinate++;
     checker(xCoordinate, yCoordinate);
@@ -204,6 +217,9 @@ function move(num) {
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
+    facingX = xCoordinate + 1;
+    facingY = 0;
+    checkDirection(facingX, facingY);
   } else if (num == 4 && yCoordinate < 4) {
     yCoordinate++;
     checker(xCoordinate, yCoordinate);
@@ -211,6 +227,9 @@ function move(num) {
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
+    facingX = 0;
+    facingY = yCoordinate + 1;
+    checkDirection(facingX, facingY);
   }
   const newSquare = document.getElementById(
     "recty" + yCoordinate + "x" + xCoordinate
