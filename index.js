@@ -147,14 +147,14 @@ function checker(newX, newY) {
 // check if the user went into pit
 function checkWumpus(newX, newY) {
   if (newX === wumpusX && newY === wumpusY) {
-    console.log("You have died!");
+    console.log("You have died to Wumpus!");
   }
 }
 // check if the user went into pit
 function checkPit(newX, newY) {
   for (let i = 0; i < 2; i++) {
     if (newX === prevPitX[i] && newY === prevPitY[i]) {
-      console.log("You have died!");
+      console.log("You have died to Pit!");
     }
   }
 }
@@ -165,6 +165,7 @@ function checkGold(newX, newY) {
     points += 1000;
     let textPoints = (document.getElementById("points_text").innerHTML =
       points);
+    console.log("You have obtained Gold!");
     i = 1;
   }
 }
