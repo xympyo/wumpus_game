@@ -170,11 +170,21 @@ function checkGold(newX, newY) {
   }
 }
 
+// direction variable declaration
 let facingX;
 let facingY;
 // function checking direction
 function checkDirection(newX, newY) {
   console.log("Your direction is now on X " + newX + " and Y " + newY);
+}
+
+// function to shoot
+function shoot(targetX, targetY) {
+  if (targetX === wumpusX && targetY === wumpusY) {
+    console.log("You have shot the Wumpus!");
+  } else {
+    console.log("You have missed!");
+  }
 }
 
 // check early game
@@ -197,7 +207,7 @@ function move(num) {
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
-    facingX = 0;
+    facingX = xCoordinate;
     facingY = yCoordinate - 1;
     checkDirection(facingX, facingY);
   } else if (num == 2 && xCoordinate > 1) {
@@ -208,7 +218,7 @@ function move(num) {
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
     facingX = xCoordinate - 1;
-    facingY = 0;
+    facingY = yCoordinate;
     checkDirection(facingX, facingY);
   } else if (num == 3 && xCoordinate < 4) {
     xCoordinate++;
@@ -218,7 +228,7 @@ function move(num) {
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
     facingX = xCoordinate + 1;
-    facingY = 0;
+    facingY = yCoordinate;
     checkDirection(facingX, facingY);
   } else if (num == 4 && yCoordinate < 4) {
     yCoordinate++;
@@ -227,7 +237,7 @@ function move(num) {
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
-    facingX = 0;
+    facingX = xCoordinate;
     facingY = yCoordinate + 1;
     checkDirection(facingX, facingY);
   }
@@ -238,4 +248,8 @@ function move(num) {
     newSquare.classList.remove("passed");
   }
   newSquare.classList.add("active");
+}
+
+function shootButton() {
+  shoot(facingX, facingY);
 }
