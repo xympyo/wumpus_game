@@ -8,12 +8,18 @@ let SpawnRandomX;
 let SpawnRandomY;
 let xCoordinate;
 let yCoordinate;
+// declare points
+let points = 0;
 // wumpus coordinate declaration
 let wumpusY;
 let wumpusX;
 // pit coordinate declaration
 let pitY;
 let pitX;
+// gold coordinate declaration
+let goldY;
+let goldX;
+
 // function create agent
 function createAgent() {
   SpawnRandomX = Math.floor(Math.random() * 4) + 1;
@@ -25,6 +31,7 @@ function createAgent() {
     .getElementById("recty" + yCoordinate + "x" + xCoordinate)
     .classList.add("active");
 }
+
 // function create wumpus
 function createWumpus() {
   // do until not the same as agent coordinate
@@ -37,6 +44,7 @@ function createWumpus() {
     .getElementById("recty" + wumpusY + "x" + wumpusX)
     .classList.add("wumpus");
 }
+
 let prevPitY = [];
 let prevPitX = [];
 // function create pit
@@ -59,6 +67,23 @@ function createPit() {
   // spawn pit
   document.getElementById("recty" + pitY + "x" + pitX).classList.add("pit");
 }
+
+// function create gold
+function createGold() {
+  let isDuplicate;
+  do {
+    goldX = Math.floor(Math.random() * 4) + 1;
+    goldY = Math.floor(Math.random() * 4) + 1;
+    isDuplicate = prevPitY.some((y, i) => y == goldY && prevPitX[i] == goldX);
+  } while (
+    (goldY == wumpusY && goldX == wumpusX) ||
+    (goldY == yCoordinate && goldX == xCoordinate) ||
+    isDuplicate
+  );
+  document.getElementById("recty" + goldY + "x" + goldX).classList.add("gold");
+}
+
+// creating pits
 function startCreatePit() {
   for (let i = 0; i < 2; i++) {
     createPit();
@@ -69,6 +94,7 @@ function startGame() {
   createAgent();
   createWumpus();
   startCreatePit();
+  createGold();
 }
 // game start
 startGame();
@@ -133,6 +159,16 @@ function checkPit(newX, newY) {
   }
 }
 
+let i = 0;
+function checkGold(newX, newY) {
+  if (newX === goldX && newY === goldY && i == 0) {
+    points += 1000;
+    let textPoints = (document.getElementById("points_text").innerHTML =
+      points);
+    i = 1;
+  }
+}
+
 // check early game
 pitChecker(xCoordinate, yCoordinate);
 checker(xCoordinate, yCoordinate);
@@ -152,24 +188,28 @@ function move(num) {
     pitChecker(xCoordinate, yCoordinate);
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
+    checkGold(xCoordinate, yCoordinate);
   } else if (num == 2 && xCoordinate > 1) {
     xCoordinate--;
     checker(xCoordinate, yCoordinate);
     pitChecker(xCoordinate, yCoordinate);
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
+    checkGold(xCoordinate, yCoordinate);
   } else if (num == 3 && xCoordinate < 4) {
     xCoordinate++;
     checker(xCoordinate, yCoordinate);
     pitChecker(xCoordinate, yCoordinate);
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
+    checkGold(xCoordinate, yCoordinate);
   } else if (num == 4 && yCoordinate < 4) {
     yCoordinate++;
     checker(xCoordinate, yCoordinate);
     pitChecker(xCoordinate, yCoordinate);
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
+    checkGold(xCoordinate, yCoordinate);
   }
   const newSquare = document.getElementById(
     "recty" + yCoordinate + "x" + xCoordinate
