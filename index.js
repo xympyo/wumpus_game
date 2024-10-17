@@ -19,9 +19,13 @@ let pitX;
 // gold coordinate declaration
 let goldY;
 let goldX;
+// arrow declaration
+let arrow;
 
 // function create agent
 function createAgent() {
+  arrow = 1;
+  let arrows = (document.getElementById("arrowText").innerHTML = arrow);
   SpawnRandomX = Math.floor(Math.random() * 4) + 1;
   SpawnRandomY = Math.floor(Math.random() * 4) + 1;
   xCoordinate = SpawnRandomX;
@@ -198,16 +202,27 @@ function checkDirection(newX, newY) {
 
 // function to shoot
 function shoot(targetX, targetY) {
-  if (targetX === wumpusX && targetY === wumpusY) {
-    let container = (document.getElementById(
-      "announceContainer"
-    ).style.display = "block");
-    let text = (document.getElementById("announceText").innerHTML =
-      "You have shot the Wumpus!");
+  if (arrow != 0) {
+    if (targetX === wumpusX && targetY === wumpusY) {
+      let container = (document.getElementById(
+        "announceContainer"
+      ).style.display = "block");
+      let text = (document.getElementById("announceText").innerHTML =
+        "You have shot the Wumpus!");
+    } else {
+      console.log("You have missed!");
+    }
   } else {
-    console.log("You have missed!");
+    let arrowInfo = (document.getElementById("arrowInfo").innerHTML =
+      "You have no arrow left!");
   }
+  let arrowInfo = (document.getElementById("arrowInfo").innerHTML =
+    "You have ran out of arrow!");
   points -= 10;
+  if (arrow == 1) {
+    arrow -= 1;
+  }
+  let arrows = (document.getElementById("arrowText").innerHTML = arrow);
 }
 
 // check early game
@@ -345,3 +360,5 @@ function retry() {
   i = 0;
   startGame();
 }
+
+function aiStart() {}

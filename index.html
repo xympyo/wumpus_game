@@ -208,7 +208,21 @@
                     border-radius: .4rem;
                 }
             }
+        }
 
+        .point-container {
+            padding-left: 2rem;
+
+            .ai-btn {
+                background-color: green;
+                color: red;
+                text-align: center;
+                padding: 1rem;
+                border-radius: 1rem;
+                border: chocolate .2rem solid;
+                font-size: 2rem;
+                cursor: pointer;
+            }
         }
     </style>
 </head>
@@ -276,6 +290,8 @@
         <div class=" point-container">
                         <h1>You have <span id="pointsText">0</span> points
                         </h1>
+                        <h2 id="arrowInfo">You only have&nbsp<span id="arrowText"></span>&nbsp arrow!</h2>
+                        <h5 class="ai-btn" onclick="aiStart()">AI Button</h5>
                 </div>
             </div>
             <div class="announcement-container" id="announceContainer">
