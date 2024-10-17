@@ -161,9 +161,12 @@
             background-color: orange;
         }
 
+
+
         .btn {
             cursor: pointer;
         }
+
 
         .wumpus {
             background-color: green;
@@ -223,6 +226,10 @@
                 font-size: 2rem;
                 cursor: pointer;
             }
+        }
+
+        .gold-notif {
+            display: none;
         }
     </style>
 </head>
@@ -288,6 +295,7 @@
             </div>
         </div>
         <div class=" point-container">
+                        <h2 class="gold-notif" id="goldNotif">You have obtained Gold!</h2>
                         <h1>You have <span id="pointsText">0</span> points
                         </h1>
                         <h2 id="arrowInfo">You only have&nbsp<span id="arrowText"></span>&nbsp arrow!</h2>

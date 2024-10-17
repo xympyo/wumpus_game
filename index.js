@@ -182,11 +182,8 @@ let i = 0;
 function checkGold(newX, newY) {
   if (newX === goldX && newY === goldY && i == 0) {
     points += 1000;
-    let container = (document.getElementById(
-      "announceContainer"
-    ).style.display = "block");
-    let text = (document.getElementById("announceText").innerHTML =
-      "You have obtained Gold!");
+    let goldText = (document.getElementById("goldNotif").style.display =
+      "block");
     let pointText = (document.getElementById("pointsText").innerHTML = points);
     i = 1;
   }
