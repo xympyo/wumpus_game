@@ -52,6 +52,12 @@
             height: 5rem;
             background-color: grey;
             border: .2rem solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: red;
+            font-size: 4rem;
         }
 
         .row {
@@ -148,7 +154,7 @@
 
         /* added state */
         .active {
-            background-color: red;
+            background-color: burlywood;
         }
 
         .passed {
@@ -169,6 +175,40 @@
 
         .gold {
             background-color: gold;
+        }
+
+        .announcement-container {
+            background-color: yellow;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            border: .3rem solid black;
+            border-radius: 1rem;
+            position: absolute;
+            margin-top: 3rem;
+            display: none;
+
+            .announce-container {
+                position: relative;
+
+                .announcement-text {
+                    text-align: center;
+                }
+
+                .close-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    background-color: chocolate;
+                    padding: .1rem;
+                    cursor: pointer;
+                    border-radius: .4rem;
+                }
+            }
+
         }
     </style>
 </head>
@@ -234,8 +274,16 @@
             </div>
         </div>
         <div class=" point-container">
-                        <h1>You have <span id="points_text">0</span> points
+                        <h1>You have <span id="pointsText">0</span> points
                         </h1>
+                </div>
+            </div>
+            <div class="announcement-container" id="announceContainer">
+                <div class="announce-container">
+                    <h1 id="announceText" class="announcement-text"></h1>
+                    <div class="close-container" onclick="retry()">
+                        <h1>RETRY</h1>
+                    </div>
                 </div>
             </div>
             <script src=" index.js">

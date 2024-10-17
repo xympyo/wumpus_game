@@ -147,14 +147,29 @@ function checker(newX, newY) {
 // check if the user went into pit
 function checkWumpus(newX, newY) {
   if (newX === wumpusX && newY === wumpusY) {
-    console.log("You have died to Wumpus!");
+    let container = (document.getElementById(
+      "announceContainer"
+    ).style.display = "block");
+    let text = (document.getElementById("announceText").innerHTML =
+      "You have died to Wumpus!");
+    points -= 1000;
+  } else {
+    let pointText = (document.getElementById("pointsText").innerHTML = points);
   }
 }
 // check if the user went into pit
 function checkPit(newX, newY) {
   for (let i = 0; i < 2; i++) {
     if (newX === prevPitX[i] && newY === prevPitY[i]) {
-      console.log("You have died to Pit!");
+      let container = (document.getElementById(
+        "announceContainer"
+      ).style.display = "block");
+      let text = (document.getElementById("announceText").innerHTML =
+        "You have died to Pit!");
+      points -= 1000;
+    } else {
+      let pointText = (document.getElementById("pointsText").innerHTML =
+        points);
     }
   }
 }
@@ -163,9 +178,12 @@ let i = 0;
 function checkGold(newX, newY) {
   if (newX === goldX && newY === goldY && i == 0) {
     points += 1000;
-    let textPoints = (document.getElementById("points_text").innerHTML =
-      points);
-    console.log("You have obtained Gold!");
+    let container = (document.getElementById(
+      "announceContainer"
+    ).style.display = "block");
+    let text = (document.getElementById("announceText").innerHTML =
+      "You have obtained Gold!");
+    let pointText = (document.getElementById("pointsText").innerHTML = points);
     i = 1;
   }
 }
@@ -181,22 +199,30 @@ function checkDirection(newX, newY) {
 // function to shoot
 function shoot(targetX, targetY) {
   if (targetX === wumpusX && targetY === wumpusY) {
-    console.log("You have shot the Wumpus!");
+    let container = (document.getElementById(
+      "announceContainer"
+    ).style.display = "block");
+    let text = (document.getElementById("announceText").innerHTML =
+      "You have shot the Wumpus!");
   } else {
     console.log("You have missed!");
   }
+  points -= 10;
 }
 
 // check early game
 pitChecker(xCoordinate, yCoordinate);
 checker(xCoordinate, yCoordinate);
 
+// declare move arrow
 // moving function
+let moveDirection;
 function move(num) {
   // moving
   const currentSquare = document.getElementById(
     "recty" + yCoordinate + "x" + xCoordinate
   );
+  currentSquare.innerHTML = "";
   currentSquare.classList.remove("active");
   currentSquare.classList.add("passed");
   // movement
@@ -208,7 +234,12 @@ function move(num) {
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
     facingX = xCoordinate;
-    facingY = yCoordinate - 1;
+    if (facingY == 0) {
+    } else {
+      facingY = yCoordinate - 1;
+    }
+    moveDirection = 1;
+    points--;
     checkDirection(facingX, facingY);
   } else if (num == 2 && xCoordinate > 1) {
     xCoordinate--;
@@ -217,8 +248,13 @@ function move(num) {
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
-    facingX = xCoordinate - 1;
     facingY = yCoordinate;
+    if (facingX == 0) {
+    } else {
+      facingX = xCoordinate - 1;
+    }
+    moveDirection = 2;
+    points--;
     checkDirection(facingX, facingY);
   } else if (num == 3 && xCoordinate < 4) {
     xCoordinate++;
@@ -227,8 +263,13 @@ function move(num) {
     checkWumpus(xCoordinate, yCoordinate);
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
-    facingX = xCoordinate + 1;
     facingY = yCoordinate;
+    if (facingX == 5) {
+    } else {
+      facingX = xCoordinate + 1;
+    }
+    moveDirection = 3;
+    points--;
     checkDirection(facingX, facingY);
   } else if (num == 4 && yCoordinate < 4) {
     yCoordinate++;
@@ -238,7 +279,12 @@ function move(num) {
     checkPit(xCoordinate, yCoordinate);
     checkGold(xCoordinate, yCoordinate);
     facingX = xCoordinate;
-    facingY = yCoordinate + 1;
+    if (yCoordinate == 5) {
+    } else {
+      facingY = yCoordinate + 1;
+    }
+    moveDirection = 4;
+    points--;
     checkDirection(facingX, facingY);
   }
   const newSquare = document.getElementById(
@@ -246,10 +292,56 @@ function move(num) {
   );
   if (newSquare.classList.contains("passed")) {
     newSquare.classList.remove("passed");
+  } else {
+    newSquare.classList.add("active");
   }
-  newSquare.classList.add("active");
+  if (moveDirection == 1) {
+    newSquare.innerHTML = "↑";
+  } else if (moveDirection == 2) {
+    newSquare.innerHTML = "←";
+  } else if (moveDirection == 3) {
+    newSquare.innerHTML = "→";
+  } else if (moveDirection == 4) {
+    newSquare.innerHTML = "↓";
+  }
 }
 
 function shootButton() {
   shoot(facingX, facingY);
+}
+
+function retry() {
+  // agent coordinate declaration
+  let SpawnRandomX = 0;
+  let SpawnRandomY = 0;
+  let xCoordinate = 0;
+  let yCoordinate = 0;
+  // wumpus coordinate declaration
+  let wumpusY = 0;
+  let wumpusX = 0;
+  // pit coordinate declaration
+  let pitY = 0;
+  let pitX = 0;
+  // gold coordinate declaration
+  let goldY = 0;
+  let goldX = 0;
+  let squares = document.querySelectorAll(".square");
+
+  squares.forEach((square) => {
+    square.classList.remove("wumpus");
+    square.classList.remove("pit");
+    square.classList.remove("gold");
+    square.classList.remove("passed");
+    square.classList.remove("active");
+    square.innerHTML = "";
+  });
+
+  prevPitX.length = 0;
+  prevPitY.length = 0;
+
+  let container = (document.getElementById("announceContainer").style.display =
+    "none");
+  let text = (document.getElementById("announceText").innerHTML = "");
+  i = 0;
+  startGame();
 }
