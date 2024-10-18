@@ -21,6 +21,9 @@ let goldY;
 let goldX;
 // arrow declaration
 let arrow;
+// danger declaration
+let isStench;
+let isBreeze;
 
 // function create agent
 function createAgent() {
@@ -93,12 +96,14 @@ function startCreatePit() {
     createPit();
   }
 }
+let dead;
 // function start the game
 function startGame() {
   createAgent();
   createWumpus();
   startCreatePit();
   createGold();
+  dead = false;
 }
 // game start
 startGame();
@@ -109,7 +114,7 @@ function isAdjacentToWumpus(newX, newY) {
     (newY === wumpusY && (newX === wumpusX - 1 || newX === wumpusX + 1))
   );
 }
-
+let pitIndex;
 // function to see if adjacent to pit
 function isAdjacentToPit(newX, newY) {
   for (let i = 0; i < prevPitX.length; i++) {
@@ -120,11 +125,11 @@ function isAdjacentToPit(newX, newY) {
         (newX === prevPitX[i] - 1 || newX === prevPitX[i] + 1))
     ) {
       return true;
+      pitIndex = i;
     }
   }
   return false;
 }
-
 // is pitAdjacent declaration
 let isPitAdjacent = [];
 // text declaration
@@ -138,7 +143,6 @@ function pitChecker(newX, newY) {
     breeze.style.opacity = 0;
   }
 }
-
 // function to check
 function checker(newX, newY) {
   if (isAdjacentToWumpus(newX, newY)) {
@@ -157,6 +161,7 @@ function checkWumpus(newX, newY) {
     let text = (document.getElementById("announceText").innerHTML =
       "You have died to Wumpus!");
     points -= 1000;
+    dead = true;
   } else {
     let pointText = (document.getElementById("pointsText").innerHTML = points);
   }
@@ -171,6 +176,7 @@ function checkPit(newX, newY) {
       let text = (document.getElementById("announceText").innerHTML =
         "You have died to Pit!");
       points -= 1000;
+      dead = true;
     } else {
       let pointText = (document.getElementById("pointsText").innerHTML =
         points);
@@ -186,6 +192,7 @@ function checkGold(newX, newY) {
       "block");
     let pointText = (document.getElementById("pointsText").innerHTML = points);
     i = 1;
+    dead = false;
   }
 }
 
@@ -196,7 +203,6 @@ let facingY;
 function checkDirection(newX, newY) {
   console.log("Your direction is now on X " + newX + " and Y " + newY);
 }
-
 // function to shoot
 function shoot(targetX, targetY) {
   if (arrow != 0) {
@@ -206,6 +212,7 @@ function shoot(targetX, targetY) {
       ).style.display = "block");
       let text = (document.getElementById("announceText").innerHTML =
         "You have shot the Wumpus!");
+      dead = false;
     } else {
       console.log("You have missed!");
     }
@@ -226,7 +233,6 @@ function shoot(targetX, targetY) {
 pitChecker(xCoordinate, yCoordinate);
 checker(xCoordinate, yCoordinate);
 
-// declare move arrow
 // moving function
 let moveDirection;
 function move(num) {
@@ -339,6 +345,8 @@ function retry() {
   let goldX = 0;
   let squares = document.querySelectorAll(".square");
 
+  dead = false;
+
   squares.forEach((square) => {
     square.classList.remove("wumpus");
     square.classList.remove("pit");
@@ -358,4 +366,90 @@ function retry() {
   startGame();
 }
 
-function aiStart() {}
+// ai function
+let state = {
+  player_position: [],
+  safe_rooms: [[]],
+  wumpus_possible_locations: [[]],
+  breeze_locations: [[]],
+  stench_locations: [[]],
+  has_gold: false,
+  has_arrow: true,
+};
+
+function evaluateState() {
+  if (state.has_gold) {
+    return 100;
+  } else if ((dead = true)) {
+    retry();
+  }
+}
+
+isDangerPit = () => {
+  if (isAdjacentToPit) {
+    state.breeze_locations.push() = (prevPitX[pitIndex] - 1, prevPitY[pitIndex]);
+    state.breeze_locations.push() = (prevPitX[pitIndex] + 1, prevPitY[pitIndex]);
+    state.breeze_locations.push() = (prevPitX[pitIndex], prevPitY[pitIndex] - 1);
+    state.breeze_locations.push() = (prevPitX[pitIndex], prevPitY[pitIndex] + 1);
+  } else {
+    for(let y = 0;y<state.safe_rooms.length();y++){
+      for (let i = 0;i<state.safe_rooms[y].length();i++){
+        if((state.safe_rooms[y][i] == xCoordinate-1 && state.safe_rooms[y][i] == yCoordinate) || 
+        (state.safe_rooms[y][i] == xCoordinate+1 && state.safe_rooms[y][i] == yCoordinate) ||
+        (state.safe_rooms[y][i] == xCoordinate && state.safe_rooms[y][i] == yCoordinate +1) ||
+        (state.safe_rooms[y][i] == xCoordinate && state.safe_rooms[y][i] == yCoordinate -1)){
+        } else {
+          state.safe_rooms.push(xCoordinate -1,yCoordinate);
+          state.safe_rooms.push(xCoordinate +1,yCoordinate);
+          state.safe_rooms.push(xCoordinate,yCoordinate -1);
+          state.safe_rooms.push(xCoordinate,yCoordinate +1);
+        }
+      }
+    }
+  }
+};
+isDangerWumpus = () => {
+  if (isAdjacentToWumpus) {
+    state.stench_locations.push() = (wumpusX, wumpusY);
+    state.stench_locations.push() = (wumpusX, wumpusY);
+    state.stench_locations.push() = (wumpusX, wumpusY);
+    state.stench_locations.push() = (wumpusX, wumpusY);
+  } else {
+    for(let y = 0;y<state.safe_rooms.length();y++){
+      for (let i = 0;i<state.safe_rooms[y].length();i++){
+        if((state.safe_rooms[y][i] == wumpusX-1 && state.safe_rooms[y][i] == wumpusY) || 
+        (state.safe_rooms[y][i] == wumpusX+1 && state.safe_rooms[y][i] == wumpusY) ||
+        (state.safe_rooms[y][i] == wumpusX && state.safe_rooms[y][i] == wumpusY +1) ||
+        (state.safe_rooms[y][i] == wumpusX && state.safe_rooms[y][i] == wumpusY -1)){
+        } else {
+          state.safe_rooms.push(wumpusX -1,wumpusY);
+          state.safe_rooms.push(wumpusX +1,wumpusY);
+          state.safe_rooms.push(wumpusX,wumpusY -1);
+          state.safe_rooms.push(wumpusX,wumpusY +1);
+        }
+      }
+    }
+  }
+};
+
+function moveToNewPlace(newX,newY) {
+  move(newX,newY);
+}
+
+getCurrentCoord = () => {
+  state.player_position.push(xCoordinate, yCoordinate);
+};
+removeCurrentCoord = () => {
+  state.player_position.pop();
+};
+
+checkAdjacentDanger = () => {
+  if (isAdjacentToWumpus(xCoordinate, yCoordinate)) {
+  }
+};
+
+function aiStart() {
+  if (squareCoord.length == 0 && dead == false) {
+    getCurrentCoord();
+  }
+}
